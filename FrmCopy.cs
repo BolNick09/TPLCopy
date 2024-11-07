@@ -17,10 +17,10 @@ namespace TPLCopy
         private void FrmCopy_Load(object sender, EventArgs e)
         {
             Random random = new Random();
-            pbCopy1.Maximum = random.Next(1000, 100001);
-            pbCopy2.Maximum = random.Next(1000, 100001);
-            pbCopy3.Maximum = random.Next(1000, 100001);
-            pbCopy4.Maximum = random.Next(1000, 100001);
+            //pbCopy1.Maximum = random.Next(1000, 100001);
+            //pbCopy2.Maximum = random.Next(1000, 100001);
+            //pbCopy3.Maximum = random.Next(1000, 100001);
+            //pbCopy4.Maximum = random.Next(1000, 100001);
             
             progressBars = new List<ProgressBar>();            
             progressBars.Add(pbCopy1);
@@ -42,10 +42,14 @@ namespace TPLCopy
                 int index = i;
                 tasks.Add(Task.Run(() => FillProgressBar(progressBars[index], cts.Token)));
             }
-            Task megaTask = Task.WhenAll(tasks).ContinueWith(task => MessageBox.Show("Копирование завершено"));
-
-            //Task.WhenAll(tasks);
-            //MessageBox.Show("Копирование завершено");
+            Task megaTask = Task.WhenAll(tasks).ContinueWith(task =>
+            {
+                if (cts.IsCancellationRequested)                
+                    MessageBox.Show("Копирование отменено");                
+                else                
+                    MessageBox.Show("Копирование завершено");
+                
+            });
         }
 
         private CancellationTokenSource cts;
@@ -54,20 +58,30 @@ namespace TPLCopy
             
             while(progressBar.Value < progressBar.Maximum - 1)
             {
+
+                
                 int value = progressBar.Value + 1;
                 if (cancellationToken.IsCancellationRequested)           
                    return;
-                
-                progressBar.BeginInvoke((MethodInvoker)delegate { progressBar.Value = value; });
+                try
+                {
+                    cancellationToken.ThrowIfCancellationRequested();
+                    Invoke(() => progressBar.Value = value);
+                    Thread.Sleep(100);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Копирование отменено исключением");
+                }
             }
         }
 
         private void btnStop_Click(object sender, EventArgs e)
         {
-            cts.Cancel();
-            foreach (var progressBar in progressBars)            
-                progressBar.BeginInvoke((MethodInvoker)delegate { progressBar.Value = 0; });
-            
+            cts.Cancel();            
+            foreach (var progressBar in progressBars)
+                Invoke(() => progressBar.Value = 0);
+
         }
     }
 }

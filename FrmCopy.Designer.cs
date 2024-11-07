@@ -40,7 +40,6 @@
             // 
             pbCopy1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             pbCopy1.Location = new Point(12, 12);
-            pbCopy1.Maximum = 100000;
             pbCopy1.Name = "pbCopy1";
             pbCopy1.Size = new Size(382, 29);
             pbCopy1.TabIndex = 0;
@@ -49,7 +48,6 @@
             // 
             pbCopy2.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             pbCopy2.Location = new Point(12, 47);
-            pbCopy2.Maximum = 100000;
             pbCopy2.Name = "pbCopy2";
             pbCopy2.Size = new Size(382, 29);
             pbCopy2.TabIndex = 1;
@@ -58,7 +56,6 @@
             // 
             pbCopy3.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             pbCopy3.Location = new Point(12, 82);
-            pbCopy3.Maximum = 100000;
             pbCopy3.Name = "pbCopy3";
             pbCopy3.Size = new Size(382, 29);
             pbCopy3.TabIndex = 2;
@@ -67,7 +64,6 @@
             // 
             pbCopy4.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             pbCopy4.Location = new Point(12, 117);
-            pbCopy4.Maximum = 100000;
             pbCopy4.Name = "pbCopy4";
             pbCopy4.Size = new Size(382, 29);
             pbCopy4.TabIndex = 3;
